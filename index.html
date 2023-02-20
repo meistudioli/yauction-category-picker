@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Web Component: &lt;yauction-category-picker /> - web components based commerce category picker</title>
+<meta name="description" content="&lt;yauction-category-picker /> is a category picker for TW Yahoo! Auction. Users could go through the whole category tree to pick a suitable category for their merchandise. <yauction-category-picker /> will show up with categoryId which developers set. That means user can start from category 「root」 or 「leaf」." />
+<link rel="stylesheet" href="css/fuji-set.css">
+<script type="module" src="mjs/wc-yauction-category-picker.js"></script>
+<style>
+/* reset */
+body,div,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,legend,input,textarea,p,article,aside,figcaption,figure,nav,section,mark,audio,video,main{margin:0;padding:0}
+article,aside,figcaption,figure,nav,section,main{display:block}
+fieldset,img{border:0}
+address,caption,cite,em,strong{font-style:normal;font-weight:400}
+ol,ul{list-style:none}
+caption{text-align:left}
+h1,h2,h3,h4,h5,h6{font-size:100%;font-weight:400}
+abbr{border:0;font-variant:normal}
+input,textarea,select{font-family:inherit;font-size:inherit;font-weight:inherit;}
+body{-webkit-text-size-adjust:none}
+select,input,button,textarea{font:100% arial,helvetica,clean,sans-serif;}
+del{font-style:normal;text-decoration:none}
+pre{font-family:monospace;line-height:100%}
+progress{-webkit-appearance:none;appearance:none;overflow:hidden;border:0 none;}
+
+/* page */
+html,body{font-family:system-ui,sans-serif;text-size-adjust:100%;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%;font-size:16px;}
+#hd,#ft{display:none;}
+
+body{position:relative;inline-size:100vw;block-size:100vh;margin:0 ;}
+.wrap{position:absolute;inset-inline-start:50%;inset-block-start:50%;transform:translate(-50%,-50%);inline-size:100%;max-inline-size:min(600px, calc(100% - 2em));box-sizing:border-box;}
+.hero{inline-size:100%;background-color:#dce2f0;border-radius:.5em;padding:2em;box-sizing:border-box;}
+
+.setting-form {
+  --background-color: #dce2f0;
+  --default-theme: rgba(var(--dory));
+}
+
+.setting-form .buttons[data-type]{
+  --overlay-color: var(--inkwell);
+}
+
+.setting-form .buttons[data-type='secondary1'][disabled] {
+  --color: rgba(var(--gandalf));
+  --border-color: rgba(var(--gandalf));
+}
+
+.setting-form{inline-size:min(100%,480px);border-radius:.5em;box-sizing:border-box;padding:2em 1.5em;background-color:var(--background-color);margin-block:1.5em;display:flex;flex-direction:column;gap:1em;margin-inline:auto;}
+.setting-form .buttons{align-self:flex-end;}
+
+.inputs-set {
+  --icon-arrow-down: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIGhlaWdodD0nMjQnIHdpZHRoPScyNCc+PHBhdGggZD0nTTAgMGgyNHYyNEgwVjB6JyBmaWxsPSdub25lJy8+PHBhdGggZmlsbD0nIzIzMmEzMScgZD0nTTcuNDEgOC41OSAxMiAxMy4xN2w0LjU5LTQuNThMMTggMTBsLTYgNi02LTYgMS40MS0xLjQxeicvPjwvc3ZnPg==) no-repeat 50% 50%/24px 24px;
+  --default-padding-inline-end: 36px;
+}
+.inputs-set{position:relative;}
+.inputs-set__select{position:absolute;inset-inline-end:0;inset-block-start:0;inline-size:2.25em;block-size:100%;color:transparent;border:0 none;border-radius:0;appearance:none;overflow:hidden;display:block;outline:0 none;background:var(--icon-arrow-down);}
+
+@media (prefers-color-scheme: dark) {
+  .setting-form:not(.esc-dark-mode) {
+    --background-color: rgba(var(--inkwell));
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .setting-form .buttons{inline-size:100%;}
+}
+
+yauction-clipping-purchase:not(:defined){display:none;}
+</style>
+</head>
+
+<body>
+
+<div class="wrap">
+  <div class="demo-wrap">
+    <form class="setting-form esc-dark-mode">
+      <div class="input-set input-set--select esc-dark-mode">
+        <select name="categoryId">
+          <option value="0">Category Root</option>
+          <option value="2092111430">ARNOLD PALMER</option>
+          <option value="2092103909">SONY</option>
+          <option value="2092112127">纖體美體霜@</option>
+          <option value="2092077651">塑膠/壓克力</option>
+          <option value="22010561">Switch 遊戲主機</option>
+          <option value="2092074489">積木</option>
+          <option value="40849692">iPhone 13</option>
+          <option value="2092079234">周蕙</option>
+        </select>
+
+        <label class="input-set__label">
+          <span class="input-set__label__span">Pick Category</span>
+        </label>
+        <em class="input-set__em"></em>
+      </div>
+
+      <button
+        class="buttons"
+        data-type="secondary1"
+        data-size="large"
+      >
+        SUMMON
+      </button>
+    </form>
+
+    <yauction-category-picker>
+      <script type="application/json">
+        {
+          "l10n": {
+            "title": "編輯分類",
+            "confirm": "確定",
+            "emptyLabel": "請選擇"
+          },
+          "webservice": {
+            "path": "https://blog.lalacube.com/mei/WS_category-picker.php?type=path",
+            "children": "https://blog.lalacube.com/mei/WS_category-picker.php?type=children",
+            "node": "https://blog.lalacube.com/mei/WS_category-picker.php?type=node"
+          } 
+        }
+      </script>
+    </yauction-category-picker>
+  </div>
+</div>
+
+<script type="module">
+customElements.whenDefined('yauction-category-picker').then(() => {
+  const picker = document.querySelector('yauction-category-picker');
+  const form = document.querySelector('.setting-form');
+  const select = form.querySelector('select');
+
+  const events = [
+    'yauction-category-picker-pick',
+    'yauction-category-picker-cancel',
+    'yauction-category-picker-error'
+  ];
+
+  const handler = (evt) => {
+    const { type, detail = null } = evt;
+
+    switch (type) {
+      case 'yauction-category-picker-pick':
+        const {
+          picked: {
+            id,
+            name
+          } = {},
+          path = []
+        } = detail;
+
+        const categoy = `${name} (${id})`;
+        const pathString = path.map(({ name }) => name).join(' > ');
+
+        console.log(
+          `%c${type}%c >「%c${categoy}%c」has been picked.`,
+          'font-size:12px;line-height:1.3;background:#3a99d8;color:#fff;border-radius:3px;padding:0 4px;',
+          'font-size:12px;line-height:1.3;',
+          'font-size:12px;line-height:1.3;color:#a4f6b7;',
+          'font-size:12px;line-height:1.3;'
+        );
+        console.log(
+          `%c${type}%c > Categoty path is「%c${pathString}%c」.`,
+          'font-size:12px;line-height:1.3;background:#3a99d8;color:#fff;border-radius:3px;padding:0 4px;',
+          'font-size:12px;line-height:1.3;',
+          'font-size:12px;line-height:1.3;color:#a4f6b7;',
+          'font-size:12px;line-height:1.3;'
+        );
+        break;
+
+      case 'yauction-category-picker-cancel':
+        console.log(
+          `%c${type}%c > user dismiss category picker.`,
+          'font-size:12px;line-height:1.3;background:#3a99d8;color:#fff;border-radius:3px;padding:0 4px;',
+          'font-size:12px;line-height:1.3;'
+        );
+        break;
+
+      case 'yauction-category-picker-error':
+        const { message, cause } = detail;
+
+        console.log(
+          `%c${type}%c > ${message}`,
+          'font-size:12px;line-height:1.3;background:#3a99d8;color:#fff;border-radius:3px;padding:0 4px;',
+          'font-size:12px;line-height:1.3;'
+        );
+
+        if (cause) {
+          console.log('cause', cause);
+        }
+        break;
+    };
+  };
+
+  const show = (evt) => {
+    const categoryId = select.value;
+
+    evt.preventDefault();
+
+    picker.show(categoryId);
+  };
+
+  // events
+  events.map(
+    (event) => {
+      picker.addEventListener(event, handler);
+    }
+  );
+
+  form.addEventListener('submit', show);
+});
+</script>
+</body>
+
+</html>

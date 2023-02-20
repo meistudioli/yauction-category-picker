@@ -2,8 +2,7 @@
 
 [![Published on webcomponents.org](https://img.shields.io/badge/webcomponents.org-published-blue.svg)](https://www.webcomponents.org/element/yauction-category-picker) [![DeepScan grade](https://deepscan.io/api/teams/16372/projects/23931/branches/731293/badge/grade.svg)](https://deepscan.io/dashboard#view=project&tid=16372&pid=23931&bid=731293)
 
-&lt;yauction-category-picker /> is a category picker for TW Yahoo! Auction. Users could go through the whole category tree to pick a suitable category for their merchandise. &lt;yauction-category-picker /> will show up with categoryId which developers set. That means user can start from category 「root」 or 「leaf」.
-
+&lt;yauction-category-picker /> is a category picker for [TW Yahoo! Auction](https://tw.bid.yahoo.com/). Users could go through the whole category tree to pick a suitable category for their merchandise. &lt;yauction-category-picker /> will show up with categoryId which developers set. That means user can start from category 「`root`」 or 「`leaf`」.
 
 ![<yauction-category-picker />](https://blog.lalacube.com/mei/img/preview/yauction-category-picker.png)
 
@@ -209,5 +208,6 @@ PS. Developers could apply `{{categoryId}}` as replace key for category id in ap
 | yauction-category-picker-error | Fired when &lt;yauction-category-picker /> fetching error. Develpoers could gather information through `event.detail`.（&lt;yauction-category-picker /> will put server response to event.detail.`cause`） |
 
 ## Reference
-- [DEMO](https://blog.lalacube.com/mei/webComponent_yauction-category-picker.html)
+- [&lt;yauction-category-picker />DEMO](https://blog.lalacube.com/mei/webComponent_yauction-category-picker.html)
 - [WEBCOMPONENTS.ORG](https://www.webcomponents.org/element/yauction-category-picker)
+- [TW Yahoo! Auction](https://tw.bid.yahoo.com/)
