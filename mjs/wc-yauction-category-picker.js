@@ -1075,7 +1075,7 @@ export class YauctionCategoryPicker extends HTMLElement {
       this.#nodes.focusdCategory = currentCategory;
     } else {
       // node
-      if (!categories?.[layerId]) {
+      if (!categories[layerId]) {
         this.#generateNodes();
       }
       
