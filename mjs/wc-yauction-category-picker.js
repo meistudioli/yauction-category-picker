@@ -1175,7 +1175,9 @@ export class YauctionCategoryPicker extends HTMLElement {
     this.#clearListings();
     main.inert = true;
 
-    if (categoryId === '0') {
+    categoryId = categoryId.toString();
+
+    if (!categoryId.length || categoryId === '0') {
       this.#data.categories = [0];
     } else {
       const pathData = await this.#fetchPath(categoryId);

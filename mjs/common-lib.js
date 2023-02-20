@@ -815,7 +815,6 @@ Object.defineProperties(_wcl, {
       return signal;
     }
   },
-
   addStylesheetRules: {
     configurable: true,
     enumerable: true,
@@ -868,84 +867,4 @@ Object.defineProperties(_wcl, {
       }
     }
   }
-  // addStylesheetRules: {
-  //   configurable: true,
-  //   enumerable: true,
-  //   value: function(selector = '', props = {}, ...others) {
-  //     /**
-  //      * Add a stylesheet rule to the document
-  //      * @example
-  //      addStylesheetRules(
-  //       'body',
-  //       {
-  //         background: '#f00',
-  //         color: '#0f0'
-  //       }
-  //       [, styleSheet]
-  //      )
-
-  //      addStylesheetRules(
-  //       '@keyframes fancy-anchor-ripple',
-  //       {
-  //         '0%': '{transform:scale(1);opacity:1;}',
-  //         '100%': '{transform:scale(100);opacity:0;}'
-  //       }
-  //       [, styleSheet]
-  //      )
-
-  //      addStylesheetRules(
-  //       'body',
-  //       {
-  //         background: '#f00',
-  //         color: '#0f0'
-  //       }
-  //       'components.heros'
-  //       [, styleSheet]
-  //      )
-  //      */
-
-  //     const [
-  //       layerName = undefined,
-  //       styleSheet = this.grabStyleSheet() 
-  //     ] = others;
-
-  //     const sheet = styleSheet.sheet;
-  //     const propStr = Object.keys(props).reduce(
-  //       (acc, cur) => {
-  //         let sign;
-
-  //         sign = /^\{.*\}$/.test(props[cur]) ? '' : ':';
-  //         return acc.concat([`${cur}${sign}${props[cur]}`]);
-  //       }
-  //     , []).join((/keyframes/i.test(selector)) ? '' : ';');
-
-  //     if (layerName) {
-  //       // add rules to layer
-  //       const layer = Array.from(sheet.cssRules).find((rule) => rule?.name === layerName);
-        
-  //       if (layer !== undefined) {
-  //         try {
-  //           const idx = Array.from(layer.cssRules).findIndex((rule) => rule.selectorText === selector);
-  //           layer.cssRules[idx].style.cssText = propStr;
-  //         } catch(err) { /*error*/ }
-  //       } else {
-  //         try {
-  //           sheet.insertRule(`@layer ${layerName}{${selector}{${propStr}}}`, sheet.cssRules.length);
-  //         } catch(err) { /*error*/ }
-  //       }
-  //     } else {
-  //       const idx = Array.from(sheet.cssRules).findIndex((rule) => rule.selectorText === selector);
-
-  //       if (idx !== -1) {
-  //         try {
-  //           sheet.cssRules[idx].style.cssText = propStr;
-  //         } catch(err) { /*error*/ }
-  //       } else {
-  //         try {
-  //           sheet.insertRule(`${selector}{${propStr}}`, sheet.cssRules.length);
-  //         } catch(err) { /*error*/ }
-  //       }
-  //     }
-  //   }
-  // }
 });
