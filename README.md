@@ -129,6 +129,7 @@ yauction-category-picker {
   --yauction-category-picker-arrow-color: rgba(151 158 168);
   --yauction-category-picker-line-color: rgba(198 198 200);
   --yauction-category-picker-max-listing-count: 10;
+  --yauction-category-picker-no-result-color: rgba(35 42 49);
 
   /* action button */
   --yauction-category-picker-confirm-text-color: rgba(255 255 255);

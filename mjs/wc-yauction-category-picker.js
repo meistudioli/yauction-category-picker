@@ -62,6 +62,7 @@ ${_fujiDialog}
   --divide-line-color: var(--yauction-category-picker-section-line-color, rgba(224 228 233));
   --confirm-text-color: var(--yauction-category-picker-confirm-text-color, rgba(255 255 255));
   --confirm-bgc: var(--yauction-category-picker-confirm-bgc, rgba(58 191 186));
+  --no-result-color: var(--yauction-category-picker-no-result-color, rgba(35 42 49));
 
   /* listings */
   --listing-block-size: 2.75em;
@@ -152,7 +153,6 @@ ${_fujiDialog}
 .main__head__search{position:relative;color:transparent;inline-size:2.75em;aspect-ratio:1/1;appearance:none;border:0 none;outline: 0 none;background:transparent;overflow:hidden;border-radius:2em;}
 .main__head__search::before{position:absolute;inset-inline-start:50%;inset-block-start:50%;content:'';inline-size:1.5em;block-size:1.5em;clip-path:var(--mask-magnifier);background-color:rgba(var(--black));transform:translate(-50%,-50%);}
 .main__head__search:active{transform:var(--btn-active);}
-
 .main__title{font-size:1.125em;text-align:start;flex-grow:1;}
 .category__titles{position:relative;block-size:3em;display:flex;}
 .category__titles__a{position:relative;flex:0 0 auto;color:var(--color);line-height:3em;outline:0 none;transition:color var(--duration) var(--transition-timing-function);will-change:color;}
@@ -194,10 +194,12 @@ ${_fujiDialog}
 .main__search__head__back:active{transform:var(--btn-active);}
 .main__search__head__input{font-size:1.125em;line-height:2.267;flex-grow:1;block-size:100%;border-radius:0;border:0 none;background:transparent;outline:0 none;appearance:none;-webkit-appearance:none;}
 .main__search__results{block-size:var(--search-result-size);background-color:var(--listing-bgc);border-radius:.75em;margin-block-start:var(--search-gap);}
-.main__search__results__ens{inline-size:100%;block-size:100%;}
+.main__search__results__ens{position:relative;inline-size:100%;block-size:100%;}
 .main__search__listing{position:relative;color:var(--listing-color);line-height:1.5;padding-inline:.75em;padding-block:.625em;hyphens:auto;word-wrap:break-word;}
 .main__search__listing:nth-of-type(n+2)::before{position:absolute;inset-inline-start:.75em;inset-block-start:-.5px;content:'';inline-size:calc(100% - (.75em * 2));block-size:1px;background-color:var(--line-color);}
 .main__search__listing em{color:var(--theme-color);}
+.main__search__results__ens::before{position:absolute;inset-inline-start:50%;inset-block-start:50%;font-size:8em;color:var(--no-result-color);content:'(>_<)';transform:translate(-50%,-50%);opacity:0;pointer-events:none;}
+.main__search:has(input:not(:placeholder-shown)) .main__search__results__ens:empty::before{opacity:1;transition:opacity 100ms var(--transition-timing-function) 1s;}
 #prevent-submit{display:none;}
 
 /* loading: https://loading.io/css/ */
@@ -438,6 +440,13 @@ if (CSS?.registerProperty) {
       syntax: '<color>',
       inherits: true,
       initialValue: 'rgba(0 0 0/.25)'
+    });
+
+    CSS.registerProperty({
+      name: '--yauction-category-picker-no-result-color',
+      syntax: '<color>',
+      inherits: true,
+      initialValue: 'rgba(35 42 49)'
     });
   } catch(err) {
     console.warn(`yauction-category-picker: ${err.message}`);
