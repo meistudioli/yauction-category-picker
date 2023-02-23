@@ -37,7 +37,8 @@ Put &lt;yauction-category-picker /> into HTML document. It will have different f
       "l10n": {
         "title": "Category Picker",
         "confirm": "CONFIRM",
-        "emptyLabel": "Select"
+        "emptyLabel": "Select",
+        "placeholder": "Search category"
       },
       "params": {
         "id": "mei",
