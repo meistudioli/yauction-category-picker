@@ -6,6 +6,13 @@
 
 ![<yauction-category-picker />](https://blog.lalacube.com/mei/img/preview/yauction-category-picker.png)
 
+## Vision
+- &lt;yauction-category-picker /> rised.
+![<yauction-category-picker /> rised.](https://blog.lalacube.com/mei/img/wc_visions/yauction-category-picker_a.png)
+
+- &lt;yauction-category-picker /> rised (search mode).
+![<yauction-category-picker /> rised (search mode).](https://blog.lalacube.com/mei/img/wc_visions/yauction-category-picker_b.png)
+
 ## Basic Usage
 
 &lt;yauction-category-picker /> is a web component. All we need to do is put the required script into your HTML document. Then follow &lt;yauction-category-picker />'s html structure and everything will be all set.
@@ -39,7 +46,8 @@ Put &lt;yauction-category-picker /> into HTML document. It will have different f
       "webservice": {
         "path": "https://your-domain/getCategoryPath",
         "children": "https://your-domain/getCategoryChildren",
-        "node": "https://your-domain/getCategoryNode"
+        "node": "https://your-domain/getCategoryNode",
+        "tree": "https://your-domain/getCategoryTree"
       } 
     }
   </script>
@@ -93,7 +101,8 @@ const config = {
   webservice: {
     path: 'https://your-domain/getCategoryPath',
     children: 'https://your-domain/getCategoryChildren',
-    node: 'https://your-domain/getCategoryNode'
+    node: 'https://your-domain/getCategoryNode',
+    tree: 'https://your-domain/getCategoryTree'
   } 
 };
 const nodeC = new YauctionCategoryPicker(config);
@@ -149,15 +158,16 @@ Set parameters for &lt;yauction-category-picker />. It should be JSON string. Ea
 
 - **l10n**
 
-Set localization for &lt;yauction-category-picker />. It will replace some message & button text to anything you like. It should be JSON string. Developers could set title、confirm and emptyLabel.
+Set localization for &lt;yauction-category-picker />. It will replace some message & button text to anything you like. It should be JSON string. Developers could set `title`、`confirm`、`emptyLabel` and `placeholder`.
 
 - `title`：category title text. Default is `Category Picker`.
 - `confirm`：button「confirm」text. Default is `CONFIRM`.
 - `emptyLabel`：empty label text. Default is `Select`.
+- `placeholder`：search field placeholder content. Default is `Search category`.
 
 ```html
 <yauction-category-picker
-  l10n='{"title":"Category Picker","confirm":"CONFIRM","emptyLabel":"Select"}'
+  l10n='{"title":"Category Picker","confirm":"CONFIRM","emptyLabel":"Select","placeholder":"Search category"}'
 >
   ...
 </yauction-category-picker>
@@ -165,17 +175,18 @@ Set localization for &lt;yauction-category-picker />. It will replace some messa
 
 - **webservice**
 
-Set web service information for &lt;yauction-category-picker />. It should be JSON string. Developers could set path、node and children api address here.
+Set web service information for &lt;yauction-category-picker />. It should be JSON string. Developers could set `path`、`node`、`children` and `tree` api address here..
 
 PS. Developers could apply `{{categoryId}}` as replace key for category id in api address. Such as "`https://your-domain/getCategoryChildren/{{categoryId}}`".
 
 - `path`：api address for category path information fetching (leaf to root).
 - `children`：api address for category children fetching.
 - `node`：api address for category node information fetching.
+- `tree`：api address for category tree information fetching.
 
 ```html
 <yauction-category-picker
-  webservice='{"path":"https://your-domain/getCategoryPath","children":"https://your-domain/getCategoryChildren","node":"https://your-domain/getCategoryNode"}'
+  webservice='{"path":"https://your-domain/getCategoryPath","children":"https://your-domain/getCategoryChildren","node":"https://your-domain/getCategoryNode","tree":"https://your-domain/getCategoryTree"}'
 >
   ...
 </yauction-category-picker>
@@ -186,9 +197,8 @@ PS. Developers could apply `{{categoryId}}` as replace key for category id in ap
 | Property Name | Type | Description |
 | ----------- | ----------- | ----------- |
 | params | Object | Getter / Setter for params. Each fetching will attached these parameters to api. Default is `{}`. |
-| l10n | Object | Getter / Setter for l10n. It will replace some UI text to anything you like. Developers could set `title`、`confirm` and `emptyLabel`. |
-| webservice | Object | Getter / Setter for webservice. Developers could set `path`、`children` and `node` api address here. |
-| l10n | Object | Getter / Setter for l10n. It will replace some message & button text to anything you like. Developers could set `back`、`search`、`submit`、`inputLabel` and `inputPlaceholder`. |
+| l10n | Object | Getter / Setter for l10n. It will replace some UI text to anything you like. Developers could set `title`、`confirm`、`emptyLabel` and `placeholder`. |
+| webservice | Object | Getter / Setter for webservice. Developers could set `path`、`children`、`node` and `tree` api address here. |
 | open | Boolean | Getter for &lt;yauction-category-picker />'s open status. |
 | pickedInfo | Object | Getter for current &lt;yauction-category-picker />'s category information. Developers could get `{ picked, path }`. |
 
@@ -199,6 +209,7 @@ PS. Developers could apply `{{categoryId}}` as replace key for category id in ap
 | ----------- | ----------- |
 | show(categoryId) | Fetch & popup &lt;yauction-category-picker />. Developers could call this method with argument > categero id to popup <yauction-category-picker />. Such as：`element.show('23288')`. Default is `0` (not set). |
 | dismiss | Dismiss &lt;yauction-category-picker />.
+
 ## Event
 
 | Event Signature | Description |
@@ -208,6 +219,7 @@ PS. Developers could apply `{{categoryId}}` as replace key for category id in ap
 | yauction-category-picker-error | Fired when &lt;yauction-category-picker /> fetching error. Develpoers could gather information through `event.detail`.（&lt;yauction-category-picker /> will put server response to event.detail.`cause`） |
 
 ## Reference
-- [&lt;yauction-category-picker />DEMO](https://blog.lalacube.com/mei/webComponent_yauction-category-picker.html)
+- [&lt;yauction-category-picker /> DEMO](https://blog.lalacube.com/mei/webComponent_yauction-category-picker.html)
 - [WEBCOMPONENTS.ORG](https://www.webcomponents.org/element/yauction-category-picker)
+- [YouTube](https://www.youtube.com/shorts/PF15f_DRSgY)
 - [TW Yahoo! Auction](https://tw.bid.yahoo.com/)
