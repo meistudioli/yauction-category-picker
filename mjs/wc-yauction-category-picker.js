@@ -26,7 +26,7 @@ const defaults = {
   },
   webservice: {
     path: 'https://category-public.nevec.yahoo.com/v2/egs/category/node/get_path/tw_auction2_basic/{{categoryId}}',
-    node: 'https://category-public.nevec.yahoo.com/v1/egs/category/node/get_node/tw_auction2_basic/{{categoryId}}',
+    nodes: 'https://category-public.nevec.yahoo.com/v1/egs/category/node/get_nodes/tw_auction2_basic/?cat_ids={{categoryId}}',
     children: 'https://category-public.nevec.yahoo.com/v2/egs/category/node/get_children/tw_auction2_basic/{{categoryId}}',
     tree: 'https://category-public.nevec.yahoo.com/v1/egs/category/tree/get_all_nodes/tw_auction2_basic'
   }
@@ -928,13 +928,13 @@ export class YauctionCategoryPicker extends HTMLElement {
     return pathData;
   }
 
-  async #fetchNode(id) {
-    const { node } = this.webservice;
-    let leaf = false;
+  async #fetchNodes(id) {
+    const { nodes } = this.webservice;
+    let leafData = {}
 
     try {
       const signal = _wcl.prepareFetch();
-      const apiUrl = node.replace(/{{categoryId}}/g, id);
+      const apiUrl = nodes.replace(/{{categoryId}}/g, id);
       const base = !/^http(s)?:\/\/.*/.test(apiUrl) ? window.location.origin : undefined;
 
       const fetchUrl = new URL(apiUrl, base);
@@ -968,7 +968,18 @@ export class YauctionCategoryPicker extends HTMLElement {
         );
 
       const { response_data = {} } = response;
-      leaf = response_data?.type === '2';
+      leafData = Object.keys(response_data).reduce(
+        (acc, key) => {
+          if (response_data[key] === null) {
+            return acc;
+          }
+
+          const { type } = response_data[key];
+          acc[key] = type === '2'
+
+          return acc
+        }
+      , {});
     } catch(err) {
       console.warn(`${_wcl.classToTagName(this.constructor.name)}: ${err.message}`);
       const cause = (typeof err.cause !== 'undefined') ? err.cause : undefined;
@@ -979,7 +990,7 @@ export class YauctionCategoryPicker extends HTMLElement {
       });
     }
 
-    return leaf;
+    return leafData;
   }
 
   async #fetchCategory(id) {
@@ -1054,20 +1065,9 @@ export class YauctionCategoryPicker extends HTMLElement {
           }
         , []);
 
-        const aliasCategoriesData = await Promise.all(
-          aliasCategories.map(
-            (id) => {
-              return this.#fetchNode(id);
-            }
-          )
-        );
-
-        const leafData = aliasCategoriesData.reduce(
-          (acc, cur, idx) => {
-            acc[aliasCategories[idx]] = cur;
-            return acc;
-          }
-        , {});
+        const leafData = aliasCategories.length
+          ? await this.#fetchNodes(aliasCategories.join())
+          : {};
 
         categoryData[id] = data.map(
           (unit) => {

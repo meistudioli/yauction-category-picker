@@ -47,7 +47,7 @@ Put &lt;yauction-category-picker /> into HTML document. It will have different f
       "webservice": {
         "path": "https://your-domain/getCategoryPath",
         "children": "https://your-domain/getCategoryChildren",
-        "node": "https://your-domain/getCategoryNode",
+        "nodes": "https://your-domain/getCategoryNodes",
         "tree": "https://your-domain/getCategoryTree"
       } 
     }
@@ -102,7 +102,7 @@ const config = {
   webservice: {
     path: 'https://your-domain/getCategoryPath',
     children: 'https://your-domain/getCategoryChildren',
-    node: 'https://your-domain/getCategoryNode',
+    nodes: 'https://your-domain/getCategoryNodes',
     tree: 'https://your-domain/getCategoryTree'
   } 
 };
@@ -177,18 +177,18 @@ Set localization for &lt;yauction-category-picker />. It will replace some messa
 
 - **webservice**
 
-Set web service information for &lt;yauction-category-picker />. It should be JSON string. Developers could set `path`、`node`、`children` and `tree` api address here..
+Set web service information for &lt;yauction-category-picker />. It should be JSON string. Developers could set `path`、`nodes`、`children` and `tree` api address here..
 
 PS. Developers could apply `{{categoryId}}` as replace key for category id in api address. Such as "`https://your-domain/getCategoryChildren/{{categoryId}}`".
 
 - `path`：api address for category path information fetching (leaf to root).
 - `children`：api address for category children fetching.
-- `node`：api address for category node information fetching.
+- `nodes`：api address for category nodes information fetching.
 - `tree`：api address for category tree information fetching.
 
 ```html
 <yauction-category-picker
-  webservice='{"path":"https://your-domain/getCategoryPath","children":"https://your-domain/getCategoryChildren","node":"https://your-domain/getCategoryNode","tree":"https://your-domain/getCategoryTree"}'
+  webservice='{"path":"https://your-domain/getCategoryPath","children":"https://your-domain/getCategoryChildren","nodes":"https://your-domain/getCategoryNodes","tree":"https://your-domain/getCategoryTree"}'
 >
   ...
 </yauction-category-picker>
@@ -200,7 +200,7 @@ PS. Developers could apply `{{categoryId}}` as replace key for category id in ap
 | ----------- | ----------- | ----------- |
 | params | Object | Getter / Setter for params. Each fetching will attached these parameters to api. Default is `{}`. |
 | l10n | Object | Getter / Setter for l10n. It will replace some UI text to anything you like. Developers could set `title`、`confirm`、`emptyLabel` and `placeholder`. |
-| webservice | Object | Getter / Setter for webservice. Developers could set `path`、`children`、`node` and `tree` api address here. |
+| webservice | Object | Getter / Setter for webservice. Developers could set `path`、`children`、`nodes` and `tree` api address here. |
 | open | Boolean | Getter for &lt;yauction-category-picker />'s open status. |
 | pickedInfo | Object | Getter for current &lt;yauction-category-picker />'s category information. Developers could get `{ picked, path }`. |
 
