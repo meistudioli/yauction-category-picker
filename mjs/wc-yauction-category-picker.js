@@ -930,7 +930,7 @@ export class YauctionCategoryPicker extends HTMLElement {
 
   async #fetchNodes(id) {
     const { nodes } = this.webservice;
-    let leafData = {}
+    let leafData = {};
 
     try {
       const signal = _wcl.prepareFetch();
@@ -975,9 +975,9 @@ export class YauctionCategoryPicker extends HTMLElement {
           }
 
           const { type } = response_data[key];
-          acc[key] = type === '2'
+          acc[key] = type === '2';
 
-          return acc
+          return acc;
         }
       , {});
     } catch(err) {
