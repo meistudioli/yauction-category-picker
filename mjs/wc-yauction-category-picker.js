@@ -24,6 +24,7 @@ const defaults = {
     emptyLabel: 'Select',
     placeholder: 'Search category'
   },
+  hiddencategories: [],
   webservice: {
     path: 'https://category-public.nevec.yahoo.com/v2/egs/category/node/get_path/tw_auction2_basic/{{categoryId}}',
     nodes: 'https://category-public.nevec.yahoo.com/v1/egs/category/node/get_nodes/tw_auction2_basic/?cat_ids={{categoryId}}',
@@ -33,8 +34,8 @@ const defaults = {
 };
 
 const booleanAttrs = []; // booleanAttrs default should be false
-const objectAttrs = ['l10n', 'params', 'webservice'];
-const custumEvents = {
+const objectAttrs = ['l10n', 'params', 'webservice', 'hiddencategories'];
+const customEvents = {
   pick: 'yauction-category-picker-pick',
   cancel: 'yauction-category-picker-cancel',
   error: 'yauction-category-picker-error'
@@ -573,6 +574,7 @@ export class YauctionCategoryPicker extends HTMLElement {
       switch (attrName) {
         case 'params':
         case 'l10n':
+        case 'hiddencategories':
         case 'webservice': {
           let values;
           try {
@@ -671,6 +673,21 @@ export class YauctionCategoryPicker extends HTMLElement {
     return this.#config.l10n;
   }
 
+  set hiddencategories(value) {
+    if (value) {
+      const newValue = [
+        ...(typeof value === 'string' ? JSON.parse(value) : value)
+      ];
+      this.setAttribute('hiddencategories', JSON.stringify(newValue));
+    } else {
+      this.removeAttribute('hiddencategories');
+    }
+  }
+
+  get hiddencategories() {
+    return this.#config.hiddencategories;
+  }
+
   set webservice(value) {
     if (value) {
       const newValue = {
@@ -747,7 +764,7 @@ export class YauctionCategoryPicker extends HTMLElement {
         dialog.close();
 
         if (type === 'cancel') {
-          this.#fireEvent(custumEvents.cancel);
+          this.#fireEvent(customEvents.cancel);
         }
       }
     , { once:true });
@@ -833,7 +850,8 @@ export class YauctionCategoryPicker extends HTMLElement {
 
             searchPool.push({
               id,
-              path: path.map(({ name }) => name).join(' > ')
+              path: path.map(({ name }) => name).join(' > '),
+              pathIds: path.map(({ id }) => id),
             });
           }
         }
@@ -842,7 +860,7 @@ export class YauctionCategoryPicker extends HTMLElement {
       console.warn(`${_wcl.classToTagName(this.constructor.name)}: ${err.message}`);
       const cause = (typeof err.cause !== 'undefined') ? err.cause : undefined;
 
-      this.#fireEvent(custumEvents.error, {
+      this.#fireEvent(customEvents.error, {
         message:err.message,
         ...(cause && { cause })
       });
@@ -919,7 +937,7 @@ export class YauctionCategoryPicker extends HTMLElement {
       console.warn(`${_wcl.classToTagName(this.constructor.name)}: ${err.message}`);
       const cause = (typeof err.cause !== 'undefined') ? err.cause : undefined;
 
-      this.#fireEvent(custumEvents.error, {
+      this.#fireEvent(customEvents.error, {
         message:err.message,
         ...(cause && { cause })
       });
@@ -984,7 +1002,7 @@ export class YauctionCategoryPicker extends HTMLElement {
       console.warn(`${_wcl.classToTagName(this.constructor.name)}: ${err.message}`);
       const cause = (typeof err.cause !== 'undefined') ? err.cause : undefined;
 
-      this.#fireEvent(custumEvents.error, {
+      this.#fireEvent(customEvents.error, {
         message:err.message,
         ...(cause && { cause })
       });
@@ -1083,7 +1101,7 @@ export class YauctionCategoryPicker extends HTMLElement {
         console.warn(`${_wcl.classToTagName(this.constructor.name)}: ${err.message}`);
         const cause = (typeof err.cause !== 'undefined') ? err.cause : undefined;
 
-        this.#fireEvent(custumEvents.error, {
+        this.#fireEvent(customEvents.error, {
           message:err.message,
           ...(cause && { cause })
         });
@@ -1183,9 +1201,10 @@ export class YauctionCategoryPicker extends HTMLElement {
     this.#data.categories.forEach(
       (categoryId, idx) => {
         const layer = layers[idx];
+        const listings = categoryData[idx].filter(({ id }) => !this.hiddencategories.includes(id))
 
         layer.replaceChildren();
-        const templateString = Mustache.render(templateListing.innerHTML, { listings:categoryData[idx] });
+        const templateString = Mustache.render(templateListing.innerHTML, { listings });
         layer.insertAdjacentHTML('afterbegin', templateString);
         layer.inert = true;
       }
@@ -1356,7 +1375,7 @@ export class YauctionCategoryPicker extends HTMLElement {
     }
 
     this.#updateStorage();
-    this.#fireEvent(custumEvents.pick, { ...this.pickedInfo });
+    this.#fireEvent(customEvents.pick, { ...this.pickedInfo });
     this.#prepareClose('submit');
   }
 
@@ -1408,7 +1427,11 @@ export class YauctionCategoryPicker extends HTMLElement {
     }
 
     const pattern = new RegExp(`.*${q}.*`, 'i');
-    const results = searchPool.filter(({ path }) => pattern.test(path));
+    // const results = searchPool.filter(({ path }) => pattern.test(path));
+    const results = searchPool.filter(({ path, pathIds }) =>
+      pattern.test(path) && !pathIds?.some(id => this.hiddencategories?.includes(id))
+    );
+    
     if (!results.length) {
       return;
     }

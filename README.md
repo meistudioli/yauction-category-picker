@@ -22,7 +22,7 @@
 ```html
 <script
   type="module"
-  src="https://your-domain/wc-yauction-category-picker.js">        
+  src="https://unpkg.com/yauction-category-picker/mjs/wc-yauction-category-picker.js">        
 </script>
 ```
 
@@ -44,6 +44,7 @@ Put &lt;yauction-category-picker /> into HTML document. It will have different f
         "id": "mei",
         ...
       },
+      "hiddencategories": ["23000"],
       "webservice": {
         "path": "https://your-domain/getCategoryPath",
         "children": "https://your-domain/getCategoryChildren",
@@ -99,6 +100,7 @@ const config = {
     id: 'mei',
     sex: 'M'
   },
+  hiddencategories: ['23000'],
   webservice: {
     path: 'https://your-domain/getCategoryPath',
     children: 'https://your-domain/getCategoryChildren',
@@ -175,6 +177,18 @@ Set localization for &lt;yauction-category-picker />. It will replace some messa
 </yauction-category-picker>
 ```
 
+- **hiddencategories**
+
+Specifies a list of `category IDs` to hide from the picker. When configured, any category whose own ID—or any ancestor's ID along its path—matches an entry in hiddencategories will be automatically excluded from the options and search results.
+
+```html
+<yauction-category-picker
+  hiddencategories='["23000"]'
+>
+  ...
+</yauction-category-picker>
+```
+
 - **webservice**
 
 Set web service information for &lt;yauction-category-picker />. It should be JSON string. Developers could set `path`、`nodes`、`children` and `tree` api address here..
@@ -200,6 +214,7 @@ PS. Developers could apply `{{categoryId}}` as replace key for category id in ap
 | ----------- | ----------- | ----------- |
 | params | Object | Getter / Setter for params. Each fetching will attached these parameters to api. Default is `{}`. |
 | l10n | Object | Getter / Setter for l10n. It will replace some UI text to anything you like. Developers could set `title`、`confirm`、`emptyLabel` and `placeholder`. |
+| hiddencategories | Array | Getter / Setter for hiddencategories. Specifies a list of `category IDs` to hide from the picker. When configured, any category whose own ID—or any ancestor's ID along its path—matches an entry in hiddencategories will be automatically excluded from the options and search results. |
 | webservice | Object | Getter / Setter for webservice. Developers could set `path`、`children`、`nodes` and `tree` api address here. |
 | open | Boolean | Getter for &lt;yauction-category-picker />'s open status. |
 | pickedInfo | Object | Getter for current &lt;yauction-category-picker />'s category information. Developers could get `{ picked, path }`. |
